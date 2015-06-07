@@ -88,6 +88,10 @@ public class HelloWorld {
                     if(action == GLFW_RELEASE)
                         keys[3] = false;
                 }
+                if (key == GLFW_KEY_P){
+                    if (action == GLFW_RELEASE)
+                        area+= 0.01f;
+                }
             }
         });
 
@@ -111,8 +115,19 @@ public class HelloWorld {
 
     float x = 0;
     float y = 0;
-    final float MAX_V = 0;
+    float MAX_V = 0;
     float vel = 0;
+    float acc = 0;
+    float area = 0.1f;
+
+    public void Circles(){
+
+    }
+
+    float getRadius(float area){
+        return (float) Math.sqrt((area/Math.PI));
+    }
+
 
     private void loop() {
         // This line is critical for LWJGL's interoperation with GLFW's
@@ -130,11 +145,47 @@ public class HelloWorld {
         while ( glfwWindowShouldClose(window) == GL_FALSE ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            if(keys[0]) y+=0.02f;
-            if(keys[1]) y-=0.02f;
-            if(keys[2]) x-=0.02f;
-            if(keys[3]) x+=0.02f;
-            DrawCircle(x,y,0.02f,50);
+            if(keys[0]){
+                if (vel<=MAX_V) {
+                    y += vel;
+                    vel += acc;
+                }else{
+                    vel = MAX_V;
+                    y += vel;
+                }
+            }
+            if(keys[1]){
+                if(vel<=MAX_V) {
+                    y -= vel;
+                    vel += acc;
+                }else{
+                    vel = MAX_V;
+                    y -= vel;
+                }
+            }
+            if(keys[2]){
+                if(vel<=MAX_V) {
+                    x -= vel;
+                    vel += acc;
+                }else{
+                    vel = MAX_V;
+                    x -= vel;
+                }
+            }
+            if(keys[3]){
+                if(vel<=MAX_V) {
+                    x += vel;
+                    vel += acc;
+                }else{
+                    vel = MAX_V;
+                    x += vel;
+                }
+            }
+            DrawCircle(x,y,getRadius(area),50);
+            acc = 1/(area/0.03f);
+            MAX_V = 1/(area/0.0015f);
+            //System.out.println(x + " " + y + " " + getRadius(area));
+
 
 
             glfwSwapBuffers(window); // swap the color buffers
@@ -153,8 +204,8 @@ public class HelloWorld {
 
         float x = r;//we start at angle = 0
         float y = 0;
-
         glBegin(GL_LINE_LOOP);
+        glColor3f(0.1f, 0.2f, 0.3f);
         for(int ii = 0; ii < num_segments; ii++)
         {
             glVertex2f(x + cx, y + cy);//output vertex
@@ -165,7 +216,9 @@ public class HelloWorld {
             y = s * t + c * y;
         }
         glEnd();
+
     }
+
     public static void main(String[] args) {
         new HelloWorld().run();
     }
