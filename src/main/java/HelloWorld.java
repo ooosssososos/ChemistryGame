@@ -154,8 +154,9 @@ public class HelloWorld {
         float x = r;//we start at angle = 0
         float y = 0;
 
+
         glBegin(GL_LINE_LOOP);
-        for(int ii = 0; ii < num_segments; ii++)
+        for(int i = 0; i < num_segments; i++)
         {
             glVertex2f(x + cx, y + cy);//output vertex
 
@@ -165,6 +166,23 @@ public class HelloWorld {
             y = s * t + c * y;
         }
         glEnd();
+    }
+
+    void drawString(String s, int textureObj, int gridsize, float x, float y, float charW, float charH){
+        glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT);
+        glEnable(GL_CULL_FACE);
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, textureObj);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE);
+        glPushMatrix();
+        glTranslatef(x,y,0);
+        glBegin(GL_QUADS);
+        for(int i = 0; i < s.length(); i++){
+            int ascii = (int) s.charAt(i);
+        }
     }
     public static void main(String[] args) {
         new HelloWorld().run();
