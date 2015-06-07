@@ -184,7 +184,7 @@ public class HelloWorld {
             DrawCircle(x,y,getRadius(area),50);
             acc = 1/(area/0.03f);
             MAX_V = 1/(area/0.0015f);
-            System.out.println(x + " " + y + " " + getRadius(area));
+            //System.out.println(x + " " + y + " " + getRadius(area));
 
 
 
