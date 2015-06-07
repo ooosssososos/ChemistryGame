@@ -1,7 +1,12 @@
+import org.lwjgl.BufferUtils;
 import org.lwjgl.Sys;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -130,21 +135,29 @@ public class HelloWorld {
 
 
     private void loop() {
+
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
         // LWJGL detects the context that is current in the current thread,
         // creates the ContextCapabilities instance and makes the OpenGL
         // bindings available for use.
         GLContext.createFromCurrent();
+        try{
+            setupTextures();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        System.out.println(fontTexture);
+
 
         // Set the clear color
-        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while ( glfwWindowShouldClose(window) == GL_FALSE ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
+           // System.out.println((int)'!');
             if(keys[0]){
                 if (vel<=MAX_V) {
                     y += vel;
@@ -182,6 +195,8 @@ public class HelloWorld {
                 }
             }
             DrawCircle(x,y,getRadius(area),50);
+
+            drawString("Hi there!", fontTexture, 8, -0.95f, 0,0.03f,0.025f);
             acc = 1/(area/0.03f);
             MAX_V = 1/(area/0.0015f);
             //System.out.println(x + " " + y + " " + getRadius(area));
@@ -206,7 +221,7 @@ public class HelloWorld {
 
 
         glBegin(GL_LINE_LOOP);
-        glColor3f(0.1f, 0.2f, 0.3f);
+        glColor3f(1f, 1f, 1f);
         for(int ii = 0; ii < num_segments; ii++)
         {
             glVertex2f(x + cx, y + cy);//output vertex
@@ -219,7 +234,50 @@ public class HelloWorld {
         glEnd();
     }
 
+    int fontTexture = 0;
+
+    void setupTextures() throws IOException {
+        BufferedImage img = ImageIO.read(new File("src\\main\\resources\\ExportedFont.png"));
+        fontTexture = loadTexture(img);
+    }
+
+    private static final int BYTES_PER_PIXEL = 4;
+    public static int loadTexture(BufferedImage image){
+
+        int[] pixels = new int[image.getWidth() * image.getHeight()];
+        image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
+
+        ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * BYTES_PER_PIXEL); //4 for RGBA, 3 for RGB
+
+        for(int y = 0; y < image.getHeight(); y++){
+            for(int x = 0; x < image.getWidth(); x++){
+                int pixel = pixels[y * image.getWidth() + x];
+                buffer.put((byte) ((pixel >> 16) & 0xFF));     // Red component
+                buffer.put((byte) ((pixel >> 8) & 0xFF));      // Green component
+                buffer.put((byte) (pixel & 0xFF));               // Blue component
+                buffer.put((byte) ((pixel >> 24) & 0xFF));    // Alpha component. Only for RGBA
+            }
+        }
+
+        buffer.flip(); //FOR THE LOVE OF GOD DO NOT FORGET THIS
+
+        // You now have a ByteBuffer filled with the color data of each pixel.
+        // Now just create a texture ID and bind it. Then you can load it using
+        // whatever OpenGL method you want, for example:
+
+        int textureID = glGenTextures(); //Generate texture ID
+        glBindTexture(GL_TEXTURE_2D, textureID); //Bind texture ID
+
+        //Send texel data to OpenGL
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+
+        glBindTexture(GL_TEXTURE_2D, 0);
+        //Return the texture ID so we can bind it later again
+        return textureID;
+    }
+
     void drawString(String s, int textureObj, int gridsize, float x, float y, float charW, float charH){
+        s = s.toUpperCase();
         glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT);
         glEnable(GL_CULL_FACE);
         glEnable(GL_TEXTURE_2D);
@@ -231,9 +289,26 @@ public class HelloWorld {
         glPushMatrix();
         glTranslatef(x,y,0);
         glBegin(GL_QUADS);
+
         for(int i = 0; i < s.length(); i++){
             int ascii = (int) s.charAt(i);
+            ascii -= 32;
+            //System.out.println(ascii);
+            final float cellSize = 1f / gridsize;
+            float cellX = ((int) (ascii%gridsize)) * cellSize;
+            float cellY = ((int) (ascii/gridsize)) * cellSize;
+            glTexCoord2f(cellX, cellY + cellSize);
+            glVertex2f(i * charW, y);
+            glTexCoord2f(cellX + cellSize, cellY + cellSize);
+            glVertex2f(i * charW + charW, y);
+            glTexCoord2f(cellX + cellSize, cellY);
+            glVertex2f(i * charW + charW, y + charH);
+            glTexCoord2f(cellX, cellY);
+            glVertex2f(i * charW, y + charH);
         }
+        glEnd();
+        glPopMatrix();
+        glPopAttrib();
     }
     public static void main(String[] args) {
         new HelloWorld().run();
