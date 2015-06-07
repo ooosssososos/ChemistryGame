@@ -100,6 +100,16 @@ public class HelloWorld {
         while ( glfwWindowShouldClose(window) == GL_FALSE ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
+
+            glBegin(GL_TRIANGLES);
+            glColor3f(0.1f, 0.2f, 0.3f);
+            glVertex3f(-1, -1, 0);
+            glVertex3f(0,(float) Math.random(), 0);
+            glVertex3f(1, 0, 0);
+            glEnd();
+
+            DrawCircle(0,0,0.5f,50);
+
             glfwSwapBuffers(window); // swap the color buffers
 
             // Poll for window events. The key callback above will only be
@@ -107,7 +117,28 @@ public class HelloWorld {
             glfwPollEvents();
         }
     }
+    void DrawCircle(float cx, float cy, float r, int num_segments)
+    {
+        float theta = 2 * (float)3.1415926 / (float) num_segments;
+        float c = (float)Math.cos(theta);//precalculate the sine and cosine
+        float s = (float)Math.sin(theta);
+        float t;
 
+        float x = r;//we start at angle = 0
+        float y = 0;
+
+        glBegin(GL_LINE_LOOP);
+        for(int ii = 0; ii < num_segments; ii++)
+        {
+            glVertex2f(x + cx, y + cy);//output vertex
+
+            //apply the rotation matrix
+            t = x;
+            x = c * x - s * y;
+            y = s * t + c * y;
+        }
+        glEnd();
+    }
     public static void main(String[] args) {
         new HelloWorld().run();
     }
