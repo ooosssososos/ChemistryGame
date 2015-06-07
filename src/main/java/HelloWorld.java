@@ -35,6 +35,7 @@ public class HelloWorld {
         }
     }
 
+    boolean[] keys = new boolean[4]; // 0 = up, 1 =down, 2 = left, 3 = right
     private void init() {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
@@ -49,8 +50,8 @@ public class HelloWorld {
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE); // the window will be resizable
 
-        int WIDTH = 300;
-        int HEIGHT = 300;
+        int WIDTH = 800;
+        int HEIGHT = 800;
 
         // Create the window
         window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);
@@ -63,6 +64,30 @@ public class HelloWorld {
             public void invoke(long window, int key, int scancode, int action, int mods) {
                 if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                     glfwSetWindowShouldClose(window, GL_TRUE); // We will detect this in our rendering loop
+                if(key == GLFW_KEY_UP) {
+                    if(action == GLFW_PRESS)
+                        keys[0] = true;
+                    if(action == GLFW_RELEASE)
+                        keys[0] = false;
+                }
+                if(key == GLFW_KEY_DOWN) {
+                    if(action == GLFW_PRESS)
+                        keys[1] = true;
+                    if(action == GLFW_RELEASE)
+                        keys[1] = false;
+                }
+                if(key == GLFW_KEY_LEFT) {
+                    if(action == GLFW_PRESS)
+                        keys[2] = true;
+                    if(action == GLFW_RELEASE)
+                        keys[2] = false;
+                }
+                if(key == GLFW_KEY_RIGHT) {
+                    if(action == GLFW_PRESS)
+                        keys[3] = true;
+                    if(action == GLFW_RELEASE)
+                        keys[3] = false;
+                }
             }
         });
 
@@ -84,6 +109,11 @@ public class HelloWorld {
         glfwShowWindow(window);
     }
 
+    float x = 0;
+    float y = 0;
+    final float MAX_V = 0;
+    float vel = 0;
+
     private void loop() {
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
@@ -100,15 +130,12 @@ public class HelloWorld {
         while ( glfwWindowShouldClose(window) == GL_FALSE ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
+            if(keys[0]) y+=0.02f;
+            if(keys[1]) y-=0.02f;
+            if(keys[2]) x-=0.02f;
+            if(keys[3]) x+=0.02f;
+            DrawCircle(x,y,0.02f,50);
 
-            glBegin(GL_TRIANGLES);
-            glColor3f(0.1f, 0.2f, 0.3f);
-            glVertex3f(-1, -1, 0);
-            glVertex3f(0,(float) Math.random(), 0);
-            glVertex3f(1, 0, 0);
-            glEnd();
-
-            DrawCircle(0,0,0.5f,50);
 
             glfwSwapBuffers(window); // swap the color buffers
 
