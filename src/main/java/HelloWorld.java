@@ -44,6 +44,7 @@ public class HelloWorld {
     }
 
     boolean[] keys = new boolean[4]; // 0 = up, 1 =down, 2 = left, 3 = right
+
     private void init() {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
@@ -135,15 +136,15 @@ public class HelloWorld {
     public ArrayList<Circle> Circles = new ArrayList(); //ArrayList of only Circles
     // public ArrayList<Circle> Circles;
 
-    public void Circles(){
+    public void Circles() {
 
     }
 
-    float getRadius(float area){
-        return (float) Math.sqrt((area/Math.PI));
+    float getRadius(float area) {
+        return (float) Math.sqrt((area / Math.PI));
     }
 
-
+    // Circles = new ArrayList<Circle>();
     private void loop() {
 
         // This line is critical for LWJGL's interoperation with GLFW's
@@ -152,75 +153,84 @@ public class HelloWorld {
         // creates the ContextCapabilities instance and makes the OpenGL
         // bindings available for use.
         GLContext.createFromCurrent();
-        try{
+        try {
             setupTextures();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println(fontTexture);
 
-
+        C.cx = 0;
+        C.cy = 0;
+        C.area = 0.1f;
         // Set the clear color
-        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
-        Circles = new ArrayList<Circle>();
+
         while (glfwWindowShouldClose(window) == GL_FALSE) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
+            C.DrawCircle();
+            Circles.add(C);
+
+            Circle Player = Circles.get(0);
             if (keys[0]) {  //moving/acceleration of the cube.
                 if (vel <= MAX_V) {
-                    y += vel;
+                    Player.cy += vel;
                     vel += acc;
                 } else {
                     vel = MAX_V;
-                    y += vel;
+                    Player.cy += vel;
                 }
             }
             if (keys[1]) {
                 if (vel <= MAX_V) {
-                    y -= vel;
+                    Player.cy -= vel;
                     vel += acc;
                 } else {
                     vel = MAX_V;
-                    y -= vel;
+                    Player.cy -= vel;
                 }
             }
             if (keys[2]) {
                 if (vel <= MAX_V) {
-                    x -= vel;
+                    Player.cx -= vel;
                     vel += acc;
                 } else {
                     vel = MAX_V;
-                    x -= vel;
+                    Player.cx -= vel;
                 }
             }
             if (keys[3]) {
                 if (vel <= MAX_V) {
-                    x += vel;
+                    Player.cx += vel;
                     vel += acc;
                 } else {
                     vel = MAX_V;
-                    x += vel;
+                    Player.cx += vel;
                 }
             }
 
-            drawString("Hi there!", fontTexture, 8, -0.95f, 0,0.03f,0.025f);
-            acc = 1/(area/0.03f);
-            MAX_V = 1/(area/0.0015f);
+            drawString("Hi there!", fontTexture, 8, -0.95f, 0, 0.03f, 0.025f);
+            acc = 1 / (area / 0.03f);
+            MAX_V = 1 / (area / 0.0015f);
             //System.out.println(x + " " + y + " " + getRadius(area));
             if (Circles.size() < 10) {
-
+                C.prevcx = C.cx;
+                C.prevcy = C.cy;
+                C.prevradius = C.radius;
                 generateCircles();
             }
-            for(Circle c : Circles){
-                c.DrawCircle();
+
+                for (Circle c : Circles) {
+                    c.DrawCircle();
             }
 
             acc = 1 / (C.area / 0.03f);
             MAX_V = 1 / (C.area / 0.0015f);
-           // System.out.println(x + " " + y + " " + C.getRadius(C.area));
+            // System.out.println(x + " " + y + " " + C.getRadius(C.area));
 
 
             glfwSwapBuffers(window); // swap the color buffers
@@ -231,13 +241,10 @@ public class HelloWorld {
         }
     }
 
+
     public void generateCircles() {
-
-
-
         Circle C = new Circle();
         Circles.add(C);
-
     }
 
     int fontTexture = 0;
@@ -248,15 +255,16 @@ public class HelloWorld {
     }
 
     private static final int BYTES_PER_PIXEL = 4;
-    public static int loadTexture(BufferedImage image){
+
+    public static int loadTexture(BufferedImage image) {
 
         int[] pixels = new int[image.getWidth() * image.getHeight()];
         image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
 
         ByteBuffer buffer = BufferUtils.createByteBuffer(image.getWidth() * image.getHeight() * BYTES_PER_PIXEL); //4 for RGBA, 3 for RGB
 
-        for(int y = 0; y < image.getHeight(); y++){
-            for(int x = 0; x < image.getWidth(); x++){
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
                 int pixel = pixels[y * image.getWidth() + x];
                 buffer.put((byte) ((pixel >> 16) & 0xFF));     // Red component
                 buffer.put((byte) ((pixel >> 8) & 0xFF));      // Green component
@@ -282,7 +290,7 @@ public class HelloWorld {
         return textureID;
     }
 
-    void drawString(String s, int textureObj, int gridsize, float x, float y, float charW, float charH){
+    void drawString(String s, int textureObj, int gridsize, float x, float y, float charW, float charH) {
         s = s.toUpperCase();
         glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT);
         glEnable(GL_CULL_FACE);
@@ -296,13 +304,13 @@ public class HelloWorld {
         glTranslatef(x, y, 0);
         glBegin(GL_QUADS);
 
-        for(int i = 0; i < s.length(); i++){
+        for (int i = 0; i < s.length(); i++) {
             int ascii = (int) s.charAt(i);
             ascii -= 32;
             //System.out.println(ascii);
             final float cellSize = 1f / gridsize;
-            float cellX = ((int) (ascii%gridsize)) * cellSize;
-            float cellY = ((int) (ascii/gridsize)) * cellSize;
+            float cellX = ((int) (ascii % gridsize)) * cellSize;
+            float cellY = ((int) (ascii / gridsize)) * cellSize;
             glTexCoord2f(cellX, cellY + cellSize);
             glVertex2f(i * charW, y);
             glTexCoord2f(cellX + cellSize, cellY + cellSize);
@@ -316,6 +324,7 @@ public class HelloWorld {
         glPopMatrix();
         glPopAttrib();
     }
+
     public static void main(String[] args) {
         new HelloWorld().run();
     }
