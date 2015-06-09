@@ -233,18 +233,7 @@ public class HelloWorld {
     public void generateCircles() {
 
 
-        glBegin(GL_LINE_LOOP);
-        glColor3f(1f, 1f, 1f);
-        for(int ii = 0; ii < num_segments; ii++)
-        {
-            glVertex2f(x + cx, y + cy);//output vertex
 
-            //apply the rotation matrix
-            t = x;
-            x = c * x - s * y;
-            y = s * t + c * y;
-        }
-        glEnd();
         Circle C = new Circle();
         float minX = -1.0f;
         float maxX = 1.0f;
