@@ -1,4 +1,3 @@
-import javafx.scene.shape.*;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Sys;
 import org.lwjgl.glfw.*;
@@ -166,9 +165,10 @@ public class HelloWorld {
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
+        Circles = new ArrayList<Circle>();
         while (glfwWindowShouldClose(window) == GL_FALSE) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-            Circles = new ArrayList<Circle>();
+
             if (keys[0]) {  //moving/acceleration of the cube.
                 if (vel <= MAX_V) {
                     y += vel;
@@ -205,7 +205,6 @@ public class HelloWorld {
                     x += vel;
                 }
             }
-            DrawCircle(x,y,getRadius(area),50);
 
             drawString("Hi there!", fontTexture, 8, -0.95f, 0,0.03f,0.025f);
             acc = 1/(area/0.03f);
@@ -215,7 +214,9 @@ public class HelloWorld {
 
                 generateCircles();
             }
-            C.DrawCircle(x, y, C.getRadius(C.area), 50);
+            for(Circle c : Circles){
+                c.DrawCircle();
+            }
 
             acc = 1 / (C.area / 0.03f);
             MAX_V = 1 / (C.area / 0.0015f);
@@ -235,18 +236,8 @@ public class HelloWorld {
 
 
         Circle C = new Circle();
-        float minX = -1.0f;
-        float maxX = 1.0f;
-        float minY = -1.0f;
-        float maxY = 1.0f;
-        Random rand = new Random();
-       C.x = (rand.nextFloat() * (maxX - minX) + minX);
-        C.y =(rand.nextFloat() * (maxY - minY) + minY);
-       // C.x = 1;
-        //C.y = 1;
-        C.DrawCircle(C.x, C.y, C.getRadius(C.area), 50);
         Circles.add(C);
-        System.out.println(C.x + " " + C.y + " " + C.getRadius(C.area));
+
     }
 
     int fontTexture = 0;
@@ -293,7 +284,6 @@ public class HelloWorld {
 
     void drawString(String s, int textureObj, int gridsize, float x, float y, float charW, float charH){
         s = s.toUpperCase();
-    void drawString(String s, int textureObj, int gridsize, float x, float y, float charW, float charH) {
         glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT);
         glEnable(GL_CULL_FACE);
         glEnable(GL_TEXTURE_2D);
@@ -307,7 +297,6 @@ public class HelloWorld {
         glBegin(GL_QUADS);
 
         for(int i = 0; i < s.length(); i++){
-        for (int i = 0; i < s.length(); i++) {
             int ascii = (int) s.charAt(i);
             ascii -= 32;
             //System.out.println(ascii);
