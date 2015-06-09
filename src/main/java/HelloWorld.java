@@ -97,14 +97,6 @@ public class HelloWorld {
                     if (action == GLFW_RELEASE)
                         keys[3] = false;
                 }
-                if (key == GLFW_KEY_P) {
-                    if (action == GLFW_RELEASE)
-                        C.area += 0.01f;
-                }
-                if (key == GLFW_KEY_O) {
-                    if (action == GLFW_RELEASE)
-                        C.area -= 0.01f;
-                }
             }
         });
 
@@ -126,14 +118,10 @@ public class HelloWorld {
         glfwShowWindow(window);
     }
 
-    Circle C = new Circle();
-    float x = C.getX();
-    float y = C.getY();
     float MAX_V = 0;
     float vel = 0;
     float acc = 0;
-    float area = C.getArea();
-    public ArrayList<Circle> Circles = new ArrayList(); //ArrayList of only Circles
+    public static ArrayList<Circle> Circles; //ArrayList of only Circles
     // public ArrayList<Circle> Circles;
 
     public void Circles() {
@@ -145,7 +133,11 @@ public class HelloWorld {
     }
 
     // Circles = new ArrayList<Circle>();
+    public static boolean restart = false;
+    public static boolean gameloop = true;
+
     private void loop() {
+       Circles = new ArrayList<Circle>();
 
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
@@ -159,77 +151,40 @@ public class HelloWorld {
             e.printStackTrace();
         }
         System.out.println(fontTexture);
+        Circles.add(new Circle(0.025f,0f,0f));
 
-        C.cx = 0;
-        C.cy = 0;
-        C.area = 0.1f;
+        //generate first Circle
         // Set the clear color
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
 
-        while (glfwWindowShouldClose(window) == GL_FALSE) {
+        gameloop: while (glfwWindowShouldClose(window) == GL_FALSE && gameloop == true) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
-            C.DrawCircle();
-            Circles.add(C);
-
-            Circle Player = Circles.get(0);
-            if (keys[0]) {  //moving/acceleration of the cube.
-                if (vel <= MAX_V) {
-                    Player.cy += vel;
-                    vel += acc;
-                } else {
-                    vel = MAX_V;
-                    Player.cy += vel;
-                }
-            }
-            if (keys[1]) {
-                if (vel <= MAX_V) {
-                    Player.cy -= vel;
-                    vel += acc;
-                } else {
-                    vel = MAX_V;
-                    Player.cy -= vel;
-                }
-            }
-            if (keys[2]) {
-                if (vel <= MAX_V) {
-                    Player.cx -= vel;
-                    vel += acc;
-                } else {
-                    vel = MAX_V;
-                    Player.cx -= vel;
-                }
-            }
-            if (keys[3]) {
-                if (vel <= MAX_V) {
-                    Player.cx += vel;
-                    vel += acc;
-                } else {
-                    vel = MAX_V;
-                    Player.cx += vel;
-                }
-            }
-
-            drawString("Hi there!", fontTexture, 8, -0.95f, 0, 0.03f, 0.025f);
-            acc = 1 / (area / 0.03f);
-            MAX_V = 1 / (area / 0.0015f);
-            //System.out.println(x + " " + y + " " + getRadius(area));
-            if (Circles.size() < 10) {
-                C.prevcx = C.cx;
-                C.prevcy = C.cy;
-                C.prevradius = C.radius;
+            int attempts = 0;
+            closeloop:
+            while (Circles.size() < 11) {
                 generateCircles();
+                if (++attempts > 10) {
+                    break closeloop;
+                }
+
+            }
+            playerMoveTick();
+            checkIntersects();
+
+            acc = 1 / (Circles.get(0).area / 0.03f);
+            MAX_V = 1 / (Circles.get(0).area / 0.0015f);
+            //System.out.println(x + " " + y + " " + getRadius(area));
+
+
+            for (Circle c : Circles) {
+                c.DrawCircle();
             }
 
-                for (Circle c : Circles) {
-                    c.DrawCircle();
-            }
-
-            acc = 1 / (C.area / 0.03f);
-            MAX_V = 1 / (C.area / 0.0015f);
             // System.out.println(x + " " + y + " " + C.getRadius(C.area));
 
 
@@ -239,12 +194,75 @@ public class HelloWorld {
             // invoked during this call.
             glfwPollEvents();
         }
+        if(restart == true){
+            gameloop = true;
+            restart = false;
+            loop();
+        }
     }
+    public void checkIntersects(){
+        Circle Player = Circles.get(0);
+        Circle target = null;
+        for (Circle c : Circles) {
+            if (c.equals(Player)){continue;}
+            if (Player.getDist(c) <= (Player.getRadius() + c.getRadius())){ target = c; break;}
+        }
+        if(target != null){
+            if(target.area > Player.area)target.eat(Player);
+            else Player.eat(target);
+        }
+
+    }
+    public void playerMoveTick(){
+        Circle Player = Circles.get(0);
+        if (keys[0]) {  //moving/acceleration of the cube.
+            if (vel <= MAX_V) {
+                Player.cy += vel;
+                vel += acc;
+            } else {
+                vel = MAX_V;
+                Player.cy += vel;
+            }
+        }
+        if (keys[1]) {
+            if (vel <= MAX_V) {
+                Player.cy -= vel;
+                vel += acc;
+            } else {
+                vel = MAX_V;
+                Player.cy -= vel;
+            }
+        }
+        if (keys[2]) {
+            if (vel <= MAX_V) {
+                Player.cx -= vel;
+                vel += acc;
+            } else {
+                vel = MAX_V;
+                Player.cx -= vel;
+            }
+        }
+        if (keys[3]) {
+            if (vel <= MAX_V) {
+                Player.cx += vel;
+                vel += acc;
+            } else {
+                vel = MAX_V;
+                Player.cx += vel;
+            }
+        }
+    }
+
+
 
 
     public void generateCircles() {
         Circle C = new Circle();
-        Circles.add(C);
+        boolean add = true;
+        for (Circle c : Circles) {
+            if (C.getDist(c) <= (C.getRadius() + c.getRadius())) add = false;
+        }
+        if(add) Circles.add(C);
     }
 
     int fontTexture = 0;

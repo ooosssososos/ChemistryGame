@@ -5,32 +5,39 @@ import static org.lwjgl.opengl.GL11.glEnd;
  * Created by andy6_000 on 2015-06-07.
  */
 public class Circle {
-    float area = 0.1f;
+    float area = 0.01f;
     float cx;
     float cy;
-    float prevcx;
-    float prevcy;
-    float radius = getRadius();
-    float distance;
-    float prevradius;
+
 
     //Generate Random Circle with area @a
     public Circle() {
-        generatePoints();
-        distance = (float) Math.sqrt(((cx - prevcx) * (cx - prevcx)) + ((cy - prevcy) * (cy - prevcy)));
-        if (distance > (prevradius + radius)) {
-            System.out.println("okay");
-        } else {
-            System.out.println("overlap");
-        }
+            generatePoints();
         //      area = (float) Math.random()*0.1f;
     }
 
+    public Circle(float a, float b, float c){
+        area = a;
+        cx = b;
+        cy = c;
+    }
+    public float getDist(Circle c){
+        float distance = (float) Math.sqrt(((cx - c.cx) * (cx - c.cx)) + ((cy - c.cy) * (cy - c.cy)));
+        return distance;
+    }
     public void generatePoints() {
         cx = (float) Math.random() * 2 - 1;
         cy = (float) Math.random() * 2 - 1;
     }
+    public void eat(Circle c){
+        if(c.equals(HelloWorld.Circles.get(0))){
+            HelloWorld.restart = true;
+            HelloWorld.gameloop = false;
+        }
+        HelloWorld.Circles.remove(c);
+        this.area += c.area;
 
+    }
     void DrawCircle() {
         float theta = 2 * (float) 3.1415926 / (float) 30;
         float c = (float) Math.cos(theta);//precalculate the sine and cosine
