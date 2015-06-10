@@ -1,3 +1,6 @@
+//periodic trends, entropy, enthalpy, electronetagity, nuclear chemistry
+//focus on learning outcome
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Sys;
 import org.lwjgl.glfw.*;
@@ -8,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Random;
@@ -59,8 +63,8 @@ public class HelloWorld {
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE); // the window will be resizable
 
-        int WIDTH = 800;
-        int HEIGHT = 800;
+        int WIDTH = 900;
+        int HEIGHT = 900;
 
         // Create the window
         window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);
@@ -122,6 +126,7 @@ public class HelloWorld {
     float vel = 0;
     float acc = 0;
     public static ArrayList<Circle> Circles; //ArrayList of only Circles
+    public final float PerTable[][] = {{0.053f, 0.031f},{0.167f, 0.112f, 0.087f, 0.067f, 0.056f, 0.048f, 0.042f, 0.038f},{0.190f, 0.145f,0.118f, 0.111f,0.098f, 0.088f,0.079f, 0.071f},{0.243f, 0.194f, 0.184f, 0.176f, 0.171f, 0.166f, 0.161f, 0.156f, 0.152f, 0.149f, 0.145f, 0.142f, 0.136f, 0.125f, 0.114f, 0.103f, 0.094f, 0.088f} };
     // public ArrayList<Circle> Circles;
 
     public void Circles() {
