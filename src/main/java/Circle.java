@@ -1,3 +1,5 @@
+import chemaxon.struc.PeriodicSystem;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glEnd;
 
@@ -5,13 +7,20 @@ import static org.lwjgl.opengl.GL11.glEnd;
  * Created by andy6_000 on 2015-06-07.
  */
 public class Circle {
-    float area = 0.01f;
+    float area;
     float cx;
     float cy;
-
+    int PorE = 0;
+    float x = getRadius();
 
     //Generate Random Circle with area @a
     public Circle() {
+            PorE = (int) (Math.random()*2);
+            if (PorE == 0){
+                Protons();
+            }else {
+                Electrons();
+            }
             generatePoints();
         //      area = (float) Math.random()*0.1f;
     }
@@ -44,7 +53,7 @@ public class Circle {
         float s = (float) Math.sin(theta);
         float t;
 
-        float x = getRadius();//we start at angle = 0
+         x = getRadius();//we start at angle = 0
         float y = 0;
 
         glBegin(GL_LINE_LOOP);
@@ -60,6 +69,12 @@ public class Circle {
 
 
         glEnd();
+    }
+    public void Protons(){
+        area = 0.01f;
+    }
+    public void Electrons(){
+        area = 0.0001f;
     }
 
     float getRadius() {

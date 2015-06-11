@@ -1,6 +1,7 @@
 //periodic trends, entropy, enthalpy, electronetagity, nuclear chemistry
 //focus on learning outcome
-
+import chemaxon.struc.PeriodicSystem;
+import com.sun.deploy.perf.PerfRollup;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Sys;
 import org.lwjgl.glfw.*;
@@ -121,17 +122,11 @@ public class HelloWorld {
         // Make the window visible
         glfwShowWindow(window);
     }
-
     float MAX_V = 0;
     float vel = 0;
     float acc = 0;
     public static ArrayList<Circle> Circles; //ArrayList of only Circles
-    public final float PerTable[][] = {{0.053f, 0.031f},{0.167f, 0.112f, 0.087f, 0.067f, 0.056f, 0.048f, 0.042f, 0.038f},{0.190f, 0.145f,0.118f, 0.111f,0.098f, 0.088f,0.079f, 0.071f},{0.243f, 0.194f, 0.184f, 0.176f, 0.171f, 0.166f, 0.161f, 0.156f, 0.152f, 0.149f, 0.145f, 0.142f, 0.136f, 0.125f, 0.114f, 0.103f, 0.094f, 0.088f} };
     // public ArrayList<Circle> Circles;
-
-    public void Circles() {
-
-    }
 
     float getRadius(float area) {
         return (float) Math.sqrt((area / Math.PI));
@@ -143,7 +138,6 @@ public class HelloWorld {
 
     private void loop() {
        Circles = new ArrayList<Circle>();
-
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
         // LWJGL detects the context that is current in the current thread,
@@ -171,7 +165,7 @@ public class HelloWorld {
 
             int attempts = 0;
             closeloop:
-            while (Circles.size() < 11) {
+            while (Circles.size() < 21) {
                 generateCircles();
                 if (++attempts > 10) {
                     break closeloop;
