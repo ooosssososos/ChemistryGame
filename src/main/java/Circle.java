@@ -72,9 +72,26 @@ public class Circle {
     }
 
     public boolean canEatElectron(){
-        //ANDY IMPLEMENT
-
-        return false;
+        if ((element == 2 || element == 10 || element == 18 || element == 36|| element == 54|| element == 86) && (electrons-element == 0)){
+            return false;
+        }if((element == 3 ||  element == 11 ||  element == 19 ||  element == 37 ||  element == 55 || element == 87) && (electrons - element == -1)){
+            return false;
+        }if ((element == 4|| element == 12||element == 20||element == 38||element == 56||element == 88) && (electrons - element == -2)){
+            return false;
+        }if ((element == 5||element == 13||element == 21||element == 39||element == 71||element == 13||element == 31||element == 49||element == 81)&&(electrons - element == -3 )){
+            return false;
+        }if((element == 6||element == 14||element == 32||element == 50||element == 82)&&(electrons - element == -4){
+            return false;
+        }if ((element == 6||element == 14)&&(electrons - element == 4)){
+            return false;
+        }if ((element == 7||element == 15 ||element == 33||element == 51)&&(electrons - element == 3)){
+            return false;
+        }if ((element == 8||element == 16 ||element == 34 ||element == 52)&&(electrons - element ==2)){
+            return false;
+        }if ((element == 9 ||element == 17||element == 35||element == 53)&& (electrons - element ==1)){
+            return false;
+        }
+        return true;
     }
 
     public void eat(Circle c){
