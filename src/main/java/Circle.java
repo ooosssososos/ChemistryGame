@@ -74,13 +74,13 @@ public class Circle {
     public boolean canEatElectron(){
         if ((element == 2 || element == 10 || element == 18 || element == 36|| element == 54|| element == 86) && (electrons-element == 0)){
             return false;
-        }if((element == 3 ||  element == 11 ||  element == 19 ||  element == 37 ||  element == 55 || element == 87) && (electrons - element == -1)){
+        }if((element == 3 ||  element == 11 ||  element == 19 ||  element == 37 ||  element == 55 || element == 87||element ==29||element ==47||element ==79||element ==80) && (electrons - element == -1)){
             return false;
-        }if ((element == 4|| element == 12||element == 20||element == 38||element == 56||element == 88) && (electrons - element == -2)){
+        }if ((element == 4|| element == 12||element == 20||element == 38||element == 56||element == 88||element ==22||element ==23||element ==24||element ==25||element ==26||element ==27||element ==28||element ==30||element ==46||element ==48||element ==63||element ==70) && (electrons - element == -2)){
             return false;
-        }if ((element == 5||element == 13||element == 21||element == 39||element == 71||element == 13||element == 31||element == 49||element == 81)&&(electrons - element == -3 )){
+        }if ((element == 5||element == 13||element == 21||element == 39||element == 71||element == 13||element == 31||element == 49||element == 81||element ==41||element ==76||element ==77||element ==83||element ==57||element ==89||element ==58||element ==59||element ==60||element ==61||element ==64||element ==65||element ==66||element ==67||element ==68||element ==69 ||element ==92||element ==93||element ==94||element ==95||element ==96||element ==97||element ==98)&&(electrons - element == -3 )){
             return false;
-        }if((element == 32||element == 50||element == 82)&&(electrons - element == -4)){
+        }if((element == 32||element == 50||element == 82||element ==43||element ==40||element ==72||element ==75||element ==90||element ==91)&&(electrons - element == -4)){
             return false;
         }if ((element == 6||element == 14)&&(electrons - element == 4)){
             return false;
