@@ -14,11 +14,15 @@ public class Circle {
     int electrons = 1;
     int element = 1;
     float x;
+    double vx = 0;
+    double vy = 0;
+    double ax = 0;
+    double ay = 0;
 
     //Generate Random Circle with area @a
     public Circle() {
             PorE = (int) (Math.random()*2);
-            if (PorE == 0){
+           if (PorE == 0){
                 Protons();
             }else {
                 Electrons();
@@ -33,6 +37,29 @@ public class Circle {
             cy = c;
         }
 
+    public void tick(){
+        if( cx > 2.5 || cx < -1.5) HelloWorld.removal.add(this);
+        if( cy > 2.5 || cy < -1.5) HelloWorld.removal.add(this);
+        Circle p = HelloWorld.Circles.get(0);
+        if(p.equals(this))return;
+        if(isElectron()){
+             ax = -0.00001 * (1/(this.cx-p.cx)) * -(p.electrons - p.element)  + (Math.random()-0.5) * 0.00001 ;
+            ay =- 0.00001 * (1/(this.cy-p.cy))* -(p.electrons - p.element)+ (Math.random()-0.5) * 0.00001 ;
+        }
+        calcPhys();
+    }
+
+    public void calcPhys(){
+        cx += vx;
+        cy += vy;
+        vx += ax;
+        vy += ay;
+    }
+
+    public boolean isElectron(){
+        if(area < 0.0002f) return true;
+        else return false;
+    }
 
     public float getDist(Circle c){
         float distance = (float) Math.sqrt(((cx - c.cx) * (cx - c.cx)) + ((cy - c.cy) * (cy - c.cy)));
@@ -86,7 +113,6 @@ public class Circle {
         if(first){
 
         glColor3f(1f, 0.0f, 0.0f);
-        System.out.println(cy);
         String name = PeriodicSystem.getName(element);
         String charge = "0";
         if(electrons > element ) charge = "-" + (electrons-element);

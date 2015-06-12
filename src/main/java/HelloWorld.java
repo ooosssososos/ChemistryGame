@@ -33,6 +33,7 @@ public class HelloWorld {
     private GLFWErrorCallback errorCallback;
     private GLFWKeyCallback keyCallback;
     public Camera camera = new Camera(new Matrix4f());
+    public static ArrayList<Circle> removal = new ArrayList<Circle>();
 
     // The window handle
     private long window;
@@ -197,6 +198,8 @@ public class HelloWorld {
 
 
             for (Circle c : Circles) {
+
+                c.tick();
                 if(Circles.get(0).equals(c))
                 c.DrawCircle(true);
                 else c.DrawCircle(false);
@@ -210,6 +213,8 @@ public class HelloWorld {
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
+            Circles.removeAll(removal);
+            removal.clear();
         }
         if(restart == true){
             gameloop = true;
@@ -349,7 +354,7 @@ public class HelloWorld {
         for (int i = 0; i < s.length(); i++) {
             int ascii = (int) s.charAt(i);
             ascii -= 32;
-            //System.out.println(ascii);
+            //.println(ascii);
             final float cellSize = 1f / gridsize;
             float cellX = ((int) (ascii % gridsize)) * cellSize;
             float cellY = ((int) (ascii / gridsize)) * cellSize;
