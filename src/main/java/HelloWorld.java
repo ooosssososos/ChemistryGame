@@ -10,22 +10,17 @@ import org.lwjgl.opengl.*;
 import Graphics.Shader;
 import Math.Matrix4f;
 import Graphics.Camera;
-import Input.Input;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Random;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 
@@ -160,6 +155,9 @@ public class HelloWorld {
         // creates the ContextCapabilities instance and makes the OpenGL
         // bindings available for use.
         GLContext.createFromCurrent();
+
+        glDepthFunc( GL_NEVER );
+        glDisable(GL_DEPTH_TEST);
         try {
             setupTextures();
         } catch (Exception e) {
@@ -170,7 +168,7 @@ public class HelloWorld {
 
         //generate first Circle
         // Set the clear color
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClearColor(1f, 1f, 1f, 1f);
         /*glMatrixMode(GL_PROJECTION);
         glLoadIdentity();;
         glOrtho(0,900, 900,0,-1,1);
@@ -181,18 +179,6 @@ public class HelloWorld {
         gameloop: while (glfwWindowShouldClose(window) == GL_FALSE && gameloop == true) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             glPushMatrix();
-            Shader.loadAll();
-
-            Shader.shader1.enable();
-            Matrix4f pr_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -10.0f, 10.0f);
-//		Matrix4f pr_matrix = Matrix4f.perspective(10.0f, 10.0f, 10.0f, 10.0f, -1.0f, 100.0f, 15.0f, (float)width/(float)height);
-            Shader.shader1.setUniformMat4f("vw_matrix", Matrix4f.translate(camera.position));
-            Shader.shader1.setUniformMat4f("pr_matrix", pr_matrix);
-            Shader.shader1.setUniform1i("tex", 1);
-
-            Shader.shader1.disable();
-            camera.render();
-            camera.update();
             int attempts = 0;
             closeloop:
             while (Circles.size() < 21) {
@@ -211,7 +197,9 @@ public class HelloWorld {
 
 
             for (Circle c : Circles) {
-                c.DrawCircle();
+                if(Circles.get(0).equals(c))
+                c.DrawCircle(true);
+                else c.DrawCircle(false);
             }
 
             // System.out.println(x + " " + y + " " + C.getRadius(C.area));
@@ -301,7 +289,7 @@ public class HelloWorld {
         if(add) Circles.add(C);
     }
 
-    int fontTexture = 0;
+    static int fontTexture = 0;
 
     void setupTextures() throws IOException {
         BufferedImage img = ImageIO.read(new File("src\\main\\resources\\ExportedFont.png"));
@@ -344,7 +332,7 @@ public class HelloWorld {
         return textureID;
     }
 
-    void drawString(String s, int textureObj, int gridsize, float x, float y, float charW, float charH) {
+    static void drawString(String s, int textureObj, int gridsize, float x, float y, float charW, float charH) {
         s = s.toUpperCase();
         glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT);
         glEnable(GL_CULL_FACE);
@@ -353,9 +341,9 @@ public class HelloWorld {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glEnable(GL_BLEND);
-        glBlendFunc(GL_ONE, GL_ONE);
+        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glPushMatrix();
-        glTranslatef(x, y, 0);
+        glTranslatef(x, y, 1);
         glBegin(GL_QUADS);
 
         for (int i = 0; i < s.length(); i++) {
@@ -366,13 +354,13 @@ public class HelloWorld {
             float cellX = ((int) (ascii % gridsize)) * cellSize;
             float cellY = ((int) (ascii / gridsize)) * cellSize;
             glTexCoord2f(cellX, cellY + cellSize);
-            glVertex2f(i * charW, y);
+            glVertex2f(i * charW, 0);
             glTexCoord2f(cellX + cellSize, cellY + cellSize);
-            glVertex2f(i * charW + charW, y);
+            glVertex2f(i * charW + charW, 0);
             glTexCoord2f(cellX + cellSize, cellY);
-            glVertex2f(i * charW + charW, y + charH);
+            glVertex2f(i * charW + charW, 0 + charH);
             glTexCoord2f(cellX, cellY);
-            glVertex2f(i * charW, y + charH);
+            glVertex2f(i * charW, 0 + charH);
         }
         glEnd();
         glPopMatrix();

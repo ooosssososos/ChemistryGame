@@ -11,6 +11,7 @@ public class Circle {
     float cx;
     float cy;
     int PorE = 0;
+    int electrons = 1;
     int element = 1;
     float x;
 
@@ -47,21 +48,31 @@ public class Circle {
        //     HelloWorld.gameloop = false;
        // }
         HelloWorld.Circles.remove(c);
+        if(c.area > 0.0001f)
         element++;
+        else
+        electrons++;
         this.area = (float) PeriodicSystem.getAtomicRadius(element)/10;
 
     }
-    void DrawCircle() {
+    void DrawCircle(boolean first) {
+
+
         float theta = 2 * (float) 3.1415926 / (float) 30;
         float c = (float) Math.cos(theta);//precalculate the sine and cosine
         float s = (float) Math.sin(theta);
         float t;
 
+
+        glDisable( GL_DEPTH_TEST );
         x = getRadius();
         float y = 0;
+        glBegin(GL_TRIANGLE_FAN);
 
-        glBegin(GL_LINE_LOOP);
-        glColor3f(0.0f, 0.0f, 0.0f);
+        if(x > 0.01f)
+            glColor3f(1f, 1f, 0.0f);
+        else
+            glColor3f(0.0f, 1.0f, 1.0f);
         for (int ii = 0; ii < 30; ii++) {
             glVertex2f(x + cx, y + cy);//output vertex
 
@@ -71,8 +82,20 @@ public class Circle {
             y = s * t + c * y;
         }
 
-
         glEnd();
+        if(first){
+
+        glColor3f(1f, 0.0f, 0.0f);
+        System.out.println(cy);
+        String name = PeriodicSystem.getName(element);
+        String charge = "0";
+        if(electrons > element ) charge = "-" + (electrons-element);
+        else charge = "+" + (element-electrons);
+        HelloWorld.drawString(name,HelloWorld.fontTexture, 8, cx-(0.05f * (name.length()/2)), cy, 0.05f,0.1f );
+        HelloWorld.drawString(charge,HelloWorld.fontTexture, 8, cx-(0.03f * (charge.length()/2)), cy-0.02f, 0.03f,0.04f );
+        glEnable( GL_DEPTH_TEST );
+        }
+
     }
     public void Protons(){
        area = (float) PeriodicSystem.getAtomicRadius(1)/10;
