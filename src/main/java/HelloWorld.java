@@ -529,7 +529,50 @@ public class HelloWorld {
         neutralCharge.put(11,1);
         neutralCharge.put(12,2);
         neutralCharge.put(13,3);
-        neutralCharge.put(14,4);
+        neutralCharge.put(14,-4);
+        neutralCharge.put(15,-3);
+        neutralCharge.put(16,-2);
+        neutralCharge.put(17, -1);
+        neutralCharge.put(18,0);
+        neutralCharge.put(19,1);
+        neutralCharge.put(20,2);
+        neutralCharge.put(21,3);
+        neutralCharge.put(22,2);
+        neutralCharge.put(23,2);
+        neutralCharge.put(24,2);
+        neutralCharge.put(25,2);
+        neutralCharge.put(26,2);
+        neutralCharge.put(27,2);
+        neutralCharge.put(28,2);
+        neutralCharge.put(29,1);
+        neutralCharge.put(30,2);
+        neutralCharge.put(31,3);
+        neutralCharge.put(32,2);
+        neutralCharge.put(33,-3);
+        neutralCharge.put(34,-2);
+        neutralCharge.put(35,-1);
+        neutralCharge.put(36,0);
+        neutralCharge.put(37,1);
+        neutralCharge.put(38,2);
+        neutralCharge.put(39,3);
+        neutralCharge.put(40,4);
+        neutralCharge.put(41,3);
+        neutralCharge.put(42,6);
+        neutralCharge.put(43,4);
+        neutralCharge.put(44,3);
+        neutralCharge.put(45,3);
+        neutralCharge.put(46,2);
+        neutralCharge.put(47,1);
+        neutralCharge.put(48,2);
+        neutralCharge.put(49,1);
+        neutralCharge.put(50,2);
+        neutralCharge.put(51,-3);
+        neutralCharge.put(52,-2);
+        neutralCharge.put(53,-1);
+        neutralCharge.put(54,0);
+
+
+
     }
 
 
