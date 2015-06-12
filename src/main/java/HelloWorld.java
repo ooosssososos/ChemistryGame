@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -26,11 +27,14 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 
 
+
+
 public class HelloWorld {
     private GLFWCursorPosCallback cursorPos;
 
     // We need to strongly reference callback instances.
     private GLFWErrorCallback errorCallback;
+    static HashMap<Integer, Double> Electronegativity = new HashMap<Integer, Double>();
     private GLFWKeyCallback keyCallback;
     public Camera camera = new Camera(new Matrix4f());
     public static ArrayList<Circle> removal = new ArrayList<Circle>();
@@ -58,6 +62,7 @@ public class HelloWorld {
     boolean[] keys = new boolean[4]; // 0 = up, 1 =down, 2 = left, 3 = right
     boolean spacedown = false;
     private void init() {
+        initEle();
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
         glfwSetErrorCallback(errorCallback = errorCallbackPrint(System.err));
@@ -169,7 +174,7 @@ public class HelloWorld {
 
         //generate first Circle
         // Set the clear color
-        glClearColor(1f, 1f, 1f, 1f);
+        glClearColor(0f, 0f, 0f, 1f);
         /*glMatrixMode(GL_PROJECTION);
         glLoadIdentity();;
         glOrtho(0,900, 900,0,-1,1);
@@ -346,7 +351,7 @@ public class HelloWorld {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glEnable(GL_BLEND);
-        glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glPushMatrix();
         glTranslatef(x, y, 1);
         glBegin(GL_QUADS);
@@ -376,6 +381,29 @@ public class HelloWorld {
 
         new HelloWorld().run();
 
+    }
+    public void initEle(){
+        Electronegativity.put(1, 2.2);
+        Electronegativity.put(2, 0d);
+        Electronegativity.put(3, 0.98);
+        Electronegativity.put(4, 1.57);
+        Electronegativity.put(5, 2.04);
+        Electronegativity.put(6, 2.55);
+        Electronegativity.put(7, 3.04);
+        Electronegativity.put(8, 3.44);
+        Electronegativity.put(9, 3.98);
+        Electronegativity.put(10, 0d);
+        Electronegativity.put(11, 0.93);
+        Electronegativity.put(12, 1.31);
+        Electronegativity.put(13, 1.61);
+        Electronegativity.put(14, 1.90);
+        Electronegativity.put(15, 2.19);
+        Electronegativity.put(16, 2.58);
+        Electronegativity.put(17, 3.16);
+        Electronegativity.put(18, 0d);
+        Electronegativity.put(19, 0.82);
+        Electronegativity.put(20, 0.95);
+        Electronegativity.put(21, 1.22);
     }
 
 

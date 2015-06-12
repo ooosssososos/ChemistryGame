@@ -44,8 +44,8 @@ public class Circle {
         if(p.equals(this))return;
         if(isElectron()){
             double dist = Math.sqrt(Math.pow(this.cx-p.cx,2) + Math.pow(this.cy-p.cy,2));
-             ax = (0.1/dist) * -0.00001 * ((this.cx-p.cx)) * -(p.electrons - p.element)  + (Math.random()-0.5) * 0.00001 ;
-            ay =(0.1/dist) * - 0.00001 * ((this.cy-p.cy))* -(p.electrons - p.element)+ (Math.random()-0.5) * 0.00001 ;
+             ax = HelloWorld.Electronegativity.get(element) * (1/dist) * -0.00001 * ((this.cx-p.cx)) * -(p.electrons - p.element)  + (Math.random()-0.5) * 0.00001  ;
+            ay = HelloWorld.Electronegativity.get(element)* (1/dist) * - 0.00001 * ((this.cy-p.cy))* -(p.electrons - p.element)+ (Math.random()-0.5) * 0.00001 ;
         }
         calcPhys();
     }
@@ -70,11 +70,19 @@ public class Circle {
         cx = (float) Math.random() * 2 - 1;
         cy = (float) Math.random() * 2 - 1;
     }
+
+    public boolean canEatElectron(){
+        //ANDY IMPLEMENT
+
+        return false;
+    }
+
     public void eat(Circle c){
        // if(c.equals(HelloWorld.Circles.get(0))){
        //     HelloWorld.restart = true;
        //     HelloWorld.gameloop = false;
        // }
+        if(c.isElectron() && !canEatElectron() ) return;
         HelloWorld.Circles.remove(c);
         if(c.area > 0.0001f)
         element++;
