@@ -43,8 +43,9 @@ public class Circle {
         Circle p = HelloWorld.Circles.get(0);
         if(p.equals(this))return;
         if(isElectron()){
-             ax = -0.00001 * (1/(this.cx-p.cx)) * -(p.electrons - p.element)  + (Math.random()-0.5) * 0.00001 ;
-            ay =- 0.00001 * (1/(this.cy-p.cy))* -(p.electrons - p.element)+ (Math.random()-0.5) * 0.00001 ;
+            double dist = Math.sqrt(Math.pow(this.cx-p.cx,2) + Math.pow(this.cy-p.cy,2));
+             ax = (0.1/dist) * -0.00001 * ((this.cx-p.cx)) * -(p.electrons - p.element)  + (Math.random()-0.5) * 0.00001 ;
+            ay =(0.1/dist) * - 0.00001 * ((this.cy-p.cy))* -(p.electrons - p.element)+ (Math.random()-0.5) * 0.00001 ;
         }
         calcPhys();
     }
