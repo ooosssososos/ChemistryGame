@@ -404,8 +404,117 @@ public class HelloWorld {
         Electronegativity.put(17, 3.16);
         Electronegativity.put(18, 0d);
         Electronegativity.put(19, 0.82);
-        Electronegativity.put(20, 0.95);
-        Electronegativity.put(21, 1.22);
+        Electronegativity.put(20, 1.0);
+        Electronegativity.put(21, 1.36);
+        Electronegativity.put(22, 1.54);
+        Electronegativity.put(23, 1.63);
+        Electronegativity.put(24, 1.66);
+        Electronegativity.put(25, 1.55);
+        Electronegativity.put(26, 1.83);
+        Electronegativity.put(27, 1.88);
+        Electronegativity.put(28, 1.91);
+        Electronegativity.put(29, 1.90);
+        Electronegativity.put(30, 1.65);
+        Electronegativity.put(31, 1.81);
+        Electronegativity.put(32, 2.01);
+        Electronegativity.put(33, 2.18);
+        Electronegativity.put(34, 2.55);
+        Electronegativity.put(35, 2.96);
+        Electronegativity.put(36, 3.00);
+        Electronegativity.put(37, 0.82);
+        Electronegativity.put(38, 0.95);
+        Electronegativity.put(39, 1.22);
+        Electronegativity.put(40, 1.33);
+        Electronegativity.put(41, 1.6);
+        Electronegativity.put(42, 2.16);
+        Electronegativity.put(43, 1.9);
+        Electronegativity.put(44, 2.25);
+        Electronegativity.put(45, 2.28);
+        Electronegativity.put(46, 2.20);
+        Electronegativity.put(47, 1.93);
+        Electronegativity.put(48, 1.69);
+        Electronegativity.put(49, 1.78);
+        Electronegativity.put(50, 1.96);
+        Electronegativity.put(51, 2.05);
+        Electronegativity.put(52, 2.1);
+        Electronegativity.put(53, 2.66);
+        Electronegativity.put(54, 2.60);
+        Electronegativity.put(55, 0.79);
+        Electronegativity.put(56, 0.89);
+        Electronegativity.put(57, 1.1);
+        Electronegativity.put(58, 1.12);
+        Electronegativity.put(59, 1.13);
+        Electronegativity.put(60, 1.14);
+        Electronegativity.put(61, 1.13);
+        Electronegativity.put(62, 1.17);
+        Electronegativity.put(63, 1.2);
+        Electronegativity.put(64, 1.2);
+        Electronegativity.put(65, 1.1);
+        Electronegativity.put(66, 1.22);
+        Electronegativity.put(67, 1.23);
+        Electronegativity.put(68, 1.24);
+        Electronegativity.put(69, 1.25);
+        Electronegativity.put(70, 1.1);
+        Electronegativity.put(71, 1.27);
+        Electronegativity.put(72, 1.3);
+        Electronegativity.put(73, 1.5);
+        Electronegativity.put(74, 2.36);
+        Electronegativity.put(75, 1.9);
+        Electronegativity.put(76, 2.2);
+        Electronegativity.put(77, 2.20);
+        Electronegativity.put(78, 2.28);
+        Electronegativity.put(79, 2.54);
+        Electronegativity.put(80, 2.00);
+        Electronegativity.put(81, 1.62);
+        Electronegativity.put(82, 2.33);
+        Electronegativity.put(83, 2.02);
+        Electronegativity.put(84, 2.0);
+        Electronegativity.put(85, 2.2);
+        Electronegativity.put(86, 2.2);
+        Electronegativity.put(87, 0.7);
+        Electronegativity.put(88, 0.9);
+        Electronegativity.put(89, 1.1);
+        Electronegativity.put(90, 1.3);
+        Electronegativity.put(91, 1.5);
+        Electronegativity.put(92, 1.38);
+        Electronegativity.put(93, 1.36);
+        Electronegativity.put(94, 1.28);
+        Electronegativity.put(95, 1.13);
+        Electronegativity.put(96, 1.28);
+        Electronegativity.put(97, 1.3);
+        Electronegativity.put(98, 1.3);
+        Electronegativity.put(99, 1.3);
+        Electronegativity.put(100, 1.3);
+        Electronegativity.put(101, 1.3);
+        Electronegativity.put(102, 1.3);
+        Electronegativity.put(103, 1.291);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         neutralCharge.put(1,0);
         neutralCharge.put(2,0);

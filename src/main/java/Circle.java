@@ -44,8 +44,8 @@ public class Circle {
         if(p.equals(this))return;
         if(isElectron()) {
             double dist = Math.sqrt(Math.pow(this.cx - p.cx, 2) + Math.pow(this.cy - p.cy, 2));
-            ax = HelloWorld.Electronegativity.get(element) * (1 / dist) * -0.00001 * ((this.cx - p.cx)) * (-(p.electrons - p.element) + -HelloWorld.neutralCharge.get(p.element)) + (Math.random() - 0.5) * 0.00001;
-            ay = HelloWorld.Electronegativity.get(element) * (1 / dist) * -0.00001 * ((this.cy - p.cy)) * (-(p.electrons - p.element) + -HelloWorld.neutralCharge.get(p.element)) + (Math.random() - 0.5) * 0.00001;
+            ax = HelloWorld.Electronegativity.get(element) * (1 / dist) * -0.00001 * ((this.cx - p.cx)) * (-(p.electrons - p.element) + HelloWorld.neutralCharge.get(p.element)) + (Math.random() - 0.5) * 0.00001;
+            ay = HelloWorld.Electronegativity.get(element) * (1 / dist) * -0.00001 * ((this.cy - p.cy)) * (-(p.electrons - p.element) + HelloWorld.neutralCharge.get(p.element)) + (Math.random() - 0.5) * 0.00001;
         }
         calcPhys();
     }
