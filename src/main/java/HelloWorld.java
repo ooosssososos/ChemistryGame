@@ -1,11 +1,16 @@
 //periodic trends, entropy, enthalpy, electronetagity, nuclear chemistry
 //focus on learning outcome
 import chemaxon.struc.PeriodicSystem;
+import com.jogamp.newt.Display;
 import com.sun.deploy.perf.PerfRollup;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Sys;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
+import Graphics.Shader;
+import Math.Matrix4f;
+import Graphics.Camera;
+import Input.Input;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -20,13 +25,19 @@ import java.util.Random;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+
+
+
 public class HelloWorld {
+    private GLFWCursorPosCallback cursorPos;
 
     // We need to strongly reference callback instances.
     private GLFWErrorCallback errorCallback;
     private GLFWKeyCallback keyCallback;
+    public Camera camera = new Camera(new Matrix4f());
 
     // The window handle
     private long window;
@@ -49,7 +60,7 @@ public class HelloWorld {
     }
 
     boolean[] keys = new boolean[4]; // 0 = up, 1 =down, 2 = left, 3 = right
-
+    boolean spacedown = false;
     private void init() {
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
@@ -67,10 +78,13 @@ public class HelloWorld {
         int WIDTH = 900;
         int HEIGHT = 900;
 
+
         // Create the window
         window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);
         if (window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
+        glfwSetCursorPosCallback(window, cursorPos = new MouseHandler());
+
 
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         glfwSetKeyCallback(window, keyCallback = new GLFWKeyCallback() {
@@ -102,6 +116,8 @@ public class HelloWorld {
                     if (action == GLFW_RELEASE)
                         keys[3] = false;
                 }
+                if (key == GLFW_KEY_SPACE) {
+                }
             }
         });
 
@@ -110,8 +126,8 @@ public class HelloWorld {
         // Center our window
         glfwSetWindowPos(
                 window,
-                (GLFWvidmode.width(vidmode) - WIDTH) / 2,
-                (GLFWvidmode.height(vidmode) - HEIGHT) / 2
+                (GLFWvidmode.width(vidmode) - WIDTH/2),
+                (GLFWvidmode.height(vidmode) - HEIGHT/2)
         );
 
         // Make the OpenGL context current
@@ -155,14 +171,28 @@ public class HelloWorld {
         //generate first Circle
         // Set the clear color
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-
+        /*glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();;
+        glOrtho(0,900, 900,0,-1,1);
+        glMatrixMode(GL_MODELVIEW);
+        */
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
-
         gameloop: while (glfwWindowShouldClose(window) == GL_FALSE && gameloop == true) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+            glPushMatrix();
+            Shader.loadAll();
 
+            Shader.shader1.enable();
+            Matrix4f pr_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -10.0f, 10.0f);
+//		Matrix4f pr_matrix = Matrix4f.perspective(10.0f, 10.0f, 10.0f, 10.0f, -1.0f, 100.0f, 15.0f, (float)width/(float)height);
+            Shader.shader1.setUniformMat4f("vw_matrix", Matrix4f.translate(camera.position));
+            Shader.shader1.setUniformMat4f("pr_matrix", pr_matrix);
+            Shader.shader1.setUniform1i("tex", 1);
+
+            Shader.shader1.disable();
+            camera.render();
+            camera.update();
             int attempts = 0;
             closeloop:
             while (Circles.size() < 21) {
@@ -199,6 +229,12 @@ public class HelloWorld {
             loop();
         }
     }
+    public void update(){
+        glfwPollEvents();
+
+        camera.update();
+
+    }
     public void checkIntersects(){
         Circle Player = Circles.get(0);
         Circle target = null;
@@ -208,7 +244,8 @@ public class HelloWorld {
         }
         if(target != null){
             if(target.area > Player.area)target.eat(Player);
-            else Player.eat(target);
+            else
+            Player.eat(target);
         }
 
     }
@@ -343,7 +380,10 @@ public class HelloWorld {
     }
 
     public static void main(String[] args) {
+
         new HelloWorld().run();
+
     }
+
 
 }

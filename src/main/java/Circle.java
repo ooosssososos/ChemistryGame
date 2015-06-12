@@ -11,7 +11,8 @@ public class Circle {
     float cx;
     float cy;
     int PorE = 0;
-    float x = getRadius();
+    int element = 1;
+    float x;
 
     //Generate Random Circle with area @a
     public Circle() {
@@ -26,10 +27,12 @@ public class Circle {
     }
 
     public Circle(float a, float b, float c){
-        area = a;
-        cx = b;
-        cy = c;
-    }
+            area = (float) PeriodicSystem.getAtomicRadius(1)/10;
+            cx = b;
+            cy = c;
+        }
+
+
     public float getDist(Circle c){
         float distance = (float) Math.sqrt(((cx - c.cx) * (cx - c.cx)) + ((cy - c.cy) * (cy - c.cy)));
         return distance;
@@ -39,12 +42,13 @@ public class Circle {
         cy = (float) Math.random() * 2 - 1;
     }
     public void eat(Circle c){
-        if(c.equals(HelloWorld.Circles.get(0))){
-            HelloWorld.restart = true;
-            HelloWorld.gameloop = false;
-        }
+       // if(c.equals(HelloWorld.Circles.get(0))){
+       //     HelloWorld.restart = true;
+       //     HelloWorld.gameloop = false;
+       // }
         HelloWorld.Circles.remove(c);
-        this.area += c.area;
+        element++;
+        this.area = (float) PeriodicSystem.getAtomicRadius(element)/10;
 
     }
     void DrawCircle() {
@@ -53,7 +57,7 @@ public class Circle {
         float s = (float) Math.sin(theta);
         float t;
 
-         x = getRadius();//we start at angle = 0
+        x = getRadius();
         float y = 0;
 
         glBegin(GL_LINE_LOOP);
@@ -71,7 +75,7 @@ public class Circle {
         glEnd();
     }
     public void Protons(){
-        area = 0.01f;
+       area = (float) PeriodicSystem.getAtomicRadius(1)/10;
     }
     public void Electrons(){
         area = 0.0001f;

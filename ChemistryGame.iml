@@ -12,7 +12,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="MarvinBeans" level="project" />
     <orderEntry type="library" name="lwjgl" level="project" />
     <orderEntry type="library" name="com.chemaxon-core" level="project" />
+    <orderEntry type="library" name="AlgebraTutorial-master" level="project" />
   </component>
 </module>

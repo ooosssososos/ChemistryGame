@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="MarvinBeans">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/Marvin Beans/marvinbeans/lib/MarvinBeans.jar!/" />
+      <root url="file://$USER_HOME$/Desktop/Marvin Beans/marvinbeans/lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$USER_HOME$/Desktop/Marvin Beans/marvinbeans/lib" />
+    </SOURCES>
+    <jarDirectory url="file://$USER_HOME$/Desktop/Marvin Beans/marvinbeans/lib" recursive="false" />
+    <jarDirectory url="file://$USER_HOME$/Desktop/Marvin Beans/marvinbeans/lib" recursive="false" type="SOURCES" />
+  </library>
+</component>
