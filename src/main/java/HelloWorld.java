@@ -205,8 +205,8 @@ public class HelloWorld {
             playerMoveTick();
             checkIntersects();
 
-            acc = 1 / (Circles.get(0).area / 0.03f);
-            MAX_V = 1 / (Circles.get(0).area / 0.0015f);
+            acc = 1 / (Circles.get(0).element / 3f);
+            MAX_V = 1 / (Circles.get(0).element / 0.15f);
             //System.out.println(x + " " + y + " " + getRadius(area));
 
 
@@ -243,9 +243,9 @@ public class HelloWorld {
             if (Player.getDist(c) <= (Player.getRadius() + c.getRadius())){ target = c; break;}
         }
         if(target != null){
-            if(target.area > Player.area)target.eat(Player);
-            else
-            Player.eat(target);
+        //    if(target.area > Player.area)target.eat(Player);
+        // else
+           Player.eat(target);
         }
 
     }
