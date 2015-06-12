@@ -80,7 +80,7 @@ public class Circle {
             return false;
         }if ((element == 5||element == 13||element == 21||element == 39||element == 71||element == 13||element == 31||element == 49||element == 81)&&(electrons - element == -3 )){
             return false;
-        }if((element == 6||element == 14||element == 32||element == 50||element == 82)&&(electrons - element == -4){
+        }if((element == 6||element == 14||element == 32||element == 50||element == 82)&&(electrons - element == -4)){
             return false;
         }if ((element == 6||element == 14)&&(electrons - element == 4)){
             return false;
