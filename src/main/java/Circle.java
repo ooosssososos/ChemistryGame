@@ -126,6 +126,7 @@ public class Circle {
         String charge = "0";
         if(electrons > element ) charge = "-" + (electrons-element);
         else charge = "+" + (element-electrons);
+            charge += ", " + PeriodicSystem.getAtomicRadius(element) + ", " + PeriodicSystem.getMass(element);
         HelloWorld.drawString(name,HelloWorld.fontTexture, 8, cx-(0.05f * (name.length()/2)), cy, 0.05f,0.1f );
         HelloWorld.drawString(charge,HelloWorld.fontTexture, 8, cx-(0.03f * (charge.length()/2)), cy-0.02f, 0.03f,0.04f );
         glEnable( GL_DEPTH_TEST );
