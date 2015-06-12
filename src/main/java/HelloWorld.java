@@ -35,6 +35,7 @@ public class HelloWorld {
     // We need to strongly reference callback instances.
     private GLFWErrorCallback errorCallback;
     static HashMap<Integer, Double> Electronegativity = new HashMap<Integer, Double>();
+    static HashMap<Integer, Integer> neutralCharge = new HashMap<Integer, Integer>();
     private GLFWKeyCallback keyCallback;
     public Camera camera = new Camera(new Matrix4f());
     public static ArrayList<Circle> removal = new ArrayList<Circle>();
@@ -81,7 +82,7 @@ public class HelloWorld {
 
 
         // Create the window
-        window = glfwCreateWindow(WIDTH, HEIGHT, "Hello World!", NULL, NULL);
+        window = glfwCreateWindow(WIDTH, HEIGHT, "Periodic Trend Simulator", NULL, NULL);
         if (window == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
         glfwSetCursorPosCallback(window, cursorPos = new MouseHandler());
@@ -290,6 +291,7 @@ public class HelloWorld {
 
 
 
+
     public void generateCircles() {
         Circle C = new Circle();
         boolean add = true;
@@ -404,6 +406,21 @@ public class HelloWorld {
         Electronegativity.put(19, 0.82);
         Electronegativity.put(20, 0.95);
         Electronegativity.put(21, 1.22);
+
+        neutralCharge.put(1,0);
+        neutralCharge.put(2,0);
+        neutralCharge.put(3,0);
+        neutralCharge.put(4,0);
+        neutralCharge.put(5,0);
+        neutralCharge.put(6,0);
+        neutralCharge.put(7,0);
+        neutralCharge.put(8,0);
+        neutralCharge.put(14,0);
+        neutralCharge.put(10,0);
+        neutralCharge.put(11,0);
+        neutralCharge.put(12,0);
+        neutralCharge.put(13,0);
+        neutralCharge.put(9,-1);
     }
 
 
